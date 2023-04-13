@@ -1,0 +1,125 @@
+{
+  "networkSecurityFactors": {
+    "subdomains": null,
+    "sshFactors": null,
+    "serviceFactors": {
+      "imapDiscovered": false,
+      "rdpDiscovered": false,
+      "ports": [{
+        "port": "25",
+        "name": "smtp",
+        "state": "filtered"
+      }, {
+        "port": "53",
+        "name": "domain",
+        "state": "filtered"
+      }, {
+        "port": "135",
+        "name": "msrpc",
+        "state": "filtered"
+      }, {
+        "port": "139",
+        "name": "netbios-ssn",
+        "state": "filtered"
+      }, {
+        "port": "161",
+        "name": "snmp",
+        "state": "filtered"
+      }, {
+        "port": "443",
+        "name": "https",
+        "state": "open"
+      }, {
+        "port": "445",
+        "name": "microsoft-ds",
+        "state": "filtered"
+      }, {
+        "port": "1080",
+        "name": "socks",
+        "state": "filtered"
+      }, {
+        "port": "8008",
+        "name": "http",
+        "state": "open"
+      }, {
+        "port": "8443",
+        "name": "https-alt",
+        "state": "open"
+      }, {
+        "port": "9001",
+        "name": "tor-orport",
+        "state": "open"
+      }],
+      "cassandraDiscovered": false,
+      "msSQLDiscovered": false,
+      "telnetDiscovered": false,
+      "rsyncDiscovered": false,
+      "vncDiscovered": false,
+      "pop3Discovered": false,
+      "ftpDiscovered": false,
+      "smbDiscovered": false,
+      "mySQLDiscovered": false,
+      "redisDiscovered": false,
+      "mongoDiscovered": false
+    },
+    "sslFactors": {
+      "cipher": "sha256WithRSAEncryption",
+      "validTill": "2032-01-14",
+      "issuedTo": "localhost",
+      "expired": false,
+      "weakCipher": false,
+      "issuedCountry": "",
+      "grade": "",
+      "issuedBy": "localhost",
+      "vulnerabilities": [],
+      "selfSigned": true,
+      "validFrom": "2022-01-16"
+    },
+    "riskFactor": 0.3
+  },
+  "dnsHealth": {
+    "a": [],
+    "dnshealthRiskScore": 0,
+    "soa": [],
+    "ns": [],
+    "spf": {
+      "spfRecordMalformed": false,
+      "doesSpfRecordContainsWildcard": false,
+      "doesspfRecordContainsaSoftfail": false,
+      "spfRecordMissing": false
+    },
+    "mx": [],
+    "ptr": [],
+    "txt": [],
+    "quadA": [],
+    "cName": [],
+    "srv": [],
+    "openDNSDetected": false,
+    "aName": [],
+    "riskScore": 0
+  },
+  "applicationSecurityFactors": {
+    "general": {
+      "csp": true,
+      "xContentTypeOptions": true,
+      "enforceHttps": false,
+      "hsts": true,
+      "xFrameOptions": true,
+      "corspolicy": true,
+      "unencryptedPwd": null
+    },
+    "highSeverityVul": {
+      "xss": true,
+      "csrf": false,
+      "sqlI": true
+    },
+    "riskNumber": 4.2000003,
+    "cookies": {
+      "httpOnly": false,
+      "secure": false
+    }
+  },
+  "ipReputation": null,
+  "riskNumber": 4.5000005,
+  "target": "81.82.82.14"
+}
