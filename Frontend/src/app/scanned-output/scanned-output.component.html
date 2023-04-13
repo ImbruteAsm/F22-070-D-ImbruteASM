@@ -1,0 +1,595 @@
+<div class="dashboard-header">
+    <div class="button back-button" (click)="backButtonClicked()" routerLink="/">
+        Back
+    </div>
+    <div class="tabs">
+        <div class="tab"
+        [ngStyle]="
+        {'background-color':(activeTab==1)?'#323F50':'', 
+        'color':(activeTab==1)?'#FFFFFF':'',
+        'box-shadow':(activeTab==1)?'0px 0px 5px 4px #FFFFFF;':'',
+        'padding-left': (activeTab==1)?'50px':'',
+        'padding-right': (activeTab==1)?'50px':''
+        }"
+        (click)="activateTab(1)">
+            Overview
+        </div>
+        <div class="tab"
+        [ngStyle]="
+        {'background-color':(activeTab==2)?'#323F50':'', 
+        'color':(activeTab==2)?'#FFFFFF':'',
+        'box-shadow':(activeTab==2)?'0px 0px 5px 4px #FFFFFF;':'',
+        'padding-left': (activeTab==2)?'50px':'',
+        'padding-right': (activeTab==2)?'50px':''
+        }"
+        (click)="activateTab(2)">
+            Network Security
+        </div>
+        <div class="tab"
+        [ngStyle]="
+        {'background-color':(activeTab==3)?'#323F50':'', 
+        'color':(activeTab==3)?'#FFFFFF':'',
+        'box-shadow':(activeTab==3)?'0px 0px 5px 4px #FFFFFF;':'',
+        'padding-left': (activeTab==3)?'50px':'',
+        'padding-right': (activeTab==3)?'50px':''
+        }"
+        (click)="activateTab(3)">
+            DNS Health
+        </div>
+        <div class="tab"
+        [ngStyle]="
+        {'background-color':(activeTab==4)?'#323F50':'', 
+        'color':(activeTab==4)?'#FFFFFF':'',
+        'box-shadow':(activeTab==4)?'0px 0px 5px 4px #FFFFFF;':'',
+        'padding-left': (activeTab==4)?'50px':'',
+        'padding-right': (activeTab==4)?'50px':''
+        }"
+        (click)="activateTab(4)">
+            Application Security
+        </div>
+        <div class="tab"
+        [ngStyle]="
+        {'background-color':(activeTab==5)?'#323F50':'', 
+        'color':(activeTab==5)?'#FFFFFF':'',
+        'box-shadow':(activeTab==5)?'0px 0px 5px 4px #FFFFFF;':'',
+        'padding-left': (activeTab==5)?'50px':'',
+        'padding-right': (activeTab==5)?'50px':''
+        }"
+        (click)="activateTab(5)">
+            Endpoint Security
+        </div>
+    </div>
+</div>
+<div class="dashboard-body" *ngIf="dataIsRecieved()">
+    <div *ngIf="activeTab==1" class="dashboard-body-content">
+        <div class="left-side">
+            <div class="score-cards">
+                <div class="box">
+                    <div class="box-title">
+                        <div>Summary</div>
+                        <circle-progress
+                        [percent]="summary.riskFactor"
+                        [radius]="35"
+                        [outerStrokeColor]="generateColour(summary.riskFactor)"
+                        [showSubtitle]="false"
+                        titleFontSize="30px"
+                        [outerStrokeWidth]="8"
+                        style="height: 90px;"
+                    ></circle-progress>
+                    </div>
+                    <div class="box-subtitle">
+                        A risk summary of the scan. (the larger the percentage, the greater the risk)
+                    </div>
+                    <div class="elements-list" style="padding:12px; overflow: scroll;">
+                        <div class="box-row" style="margin:0px; padding: 12px; font-size: 29px;">
+                            Total Risk Percentage
+                            <div class="value-holder" style="font-size: 30px;">
+                                {{summary.riskFactor}}%
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            Network Security
+                            <div class="value-holder">
+                                {{summary.networkSecurityFactor}}%
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            DNS Health
+                            <div class="value-holder">
+                                {{summary.DNSHealthFactor}}%
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            Application Security
+                            <div class="value-holder">
+                                {{summary.applicationSecurityFactor}}%
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            IP Reputation
+                            <div class="value-holder">
+                                {{summary.IPReputationFactor}}%
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="box">
+                    <div class="box-title">
+                        <div>Vulnerabilities</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of detected vulnerabilities in your company's assets.
+                    </div>
+                    <div *ngIf="vulnerabilities.length>0" class="elements-list">
+                        <div *ngFor="let vulnerability of networkSecurityData.vulnerabilities">
+                            <div class="box-row">
+                                <div>{{vulnerability['name']}}</div>
+                                <i class="cross" *ngIf="vulnerability['isDiscovered']==false"></i>
+                                <i class="checkmark" *ngIf="vulnerability['isDiscovered']==true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="vulnerabilities.length==0" style="font-size: 30px; display: flex;">
+                        NO VULNERABILITIES FOUND <i class="checkmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="score-cards">
+                <div class="box">
+                    <div class="box-title">
+                        <div>Malware</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of detected malware in your company's assets.
+                    </div>
+                    <div *ngIf="malware.length>0" class="elements-list">
+                        <div *ngFor="let mal of malware; let i = index">
+                            <div class="box-row" style="font-size: 30px;">
+                                <div class="index-holder" style="box-shadow: none;">{{i+1}}</div>
+                                {{mal}}
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="malware.length==0" style="font-size: 30px; display: flex;">
+                        NO MALWARE FOUND <i class="checkmark"></i>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-title">
+                        <div>High Severity Vulnerability</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of detected high severity vulnerabilities in your company's assets.
+                    </div>
+                    <div *ngIf="summary.highSeverityVulnerabilitiy!=null" class="elements-list">
+                        <div class="box-row">
+                            XSS
+                            <i class="cross" *ngIf="summary.highSeverityVulnerabilitiy['xss']==null"></i>
+                            <i class="checkmark" *ngIf="summary.highSeverityVulnerabilitiy['xss']!=null"></i>
+                        </div>
+                        <div class="box-row">
+                            CSRF
+                            <i class="cross" *ngIf="summary.highSeverityVulnerabilitiy['csrf']==null"></i>
+                            <i class="checkmark" *ngIf="summary.highSeverityVulnerabilitiy['csrf']!=null"></i>
+                        </div>
+                        <div class="box-row">
+                            SQLI
+                            <i class="cross" *ngIf="summary.highSeverityVulnerabilitiy['sqlI']==null"></i>
+                            <i class="checkmark" *ngIf="summary.highSeverityVulnerabilitiy['sqlI']!=null"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="highSeverityVulnerabilities==null" style="font-size: 30px; display: flex;">
+                        NO HIGH SEVERITY VULNERABILITIES FOUND <i class="checkmark"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="data-figure" *ngIf="summary.portsCount>=0">
+                <div class="box-title" style="width: 50%;">PORTS</div>
+                <div class="vl"></div>
+                <div class="data-value">{{summary.portsCount}}</div>
+
+            </div>
+            <div class="data-figure" *ngIf="summary.hostsCount>=0">
+                <div class="box-title" style="width: 50%;">HOSTS</div>
+                <div class="vl"></div>
+                <div class="data-value">{{summary.hostsCount}}</div>
+
+            </div>
+            <div class="data-figure" *ngIf="summary.subdomainsCount>=0">
+                <div class="box-title" style="width: 50%;">SUBDOMAINS</div>
+                <div class="vl"></div>
+                <div class="data-value">{{summary.subdomainsCount}}</div>
+
+            </div>
+        </div>
+ 
+    </div>
+    <div *ngIf="activeTab==2" class="dashboard-body-content">
+        <div class="left-side">
+            <div class="score-cards">
+                <div class="box">
+                    <div class="box-title">
+                        <div>SSL Factors</div>
+                    </div>
+                    <div class="box-subtitle">
+                        Your SSL factors
+                    </div>
+                    <div class="elements-list" style="padding:12px; overflow: scroll;" *ngIf="networkSecurityData.sslFactors!=null">
+                        <div class="box-row">
+                            Grade
+                            <div class="value-holder" style="font-size: 30px;">
+                                {{networkSecurityData.sslFactors['grade']}}
+                            </div>
+                        </div>
+                        <div class="box-row" >
+                            Issued To
+                            <div class="value-holder" style="font-size: 30px;">
+                                {{networkSecurityData.sslFactors['issuedTo']}}
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            Valid Till
+                            <div class="value-holder" style="font-size: 30px;">
+                                {{networkSecurityData.sslFactors['validTill']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="networkSecurityData.sslFactors==null" style="padding: 40px;">
+                        NO SSL FACTORS FOUND
+                    </div>
+                    
+                </div>
+                <div class="box">
+                    <div class="box-title">
+                        <div>Ports</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of ports.
+                    </div>
+                    <div *ngIf="networkSecurityData.ports.length>0" class="elements-list" >
+                        <div *ngFor="let port of networkSecurityData.ports">
+                            <div class="box-row">
+                                <div style="width: 33.3%;">{{port['name']}}</div><div  style="width: 33.3%;">{{port['port']}}</div><div  style="width: 33.3%;">{{port['state']}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="networkSecurityData.ports.length==0" style="padding: 40px;">
+                        NO PORTS FOUND <i class="cross"></i>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="score-cards">
+                <div class="box">
+                    <div class="box-title">
+                        <div>Subdomains</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of subdomains.
+                    </div>
+                    <div *ngIf="networkSecurityData.subdomains.length>0" class="elements-list">
+                        <div *ngFor="let subdomain of networkSecurityData.subdomains">
+                            <div class="box-row">
+                                <div>{{subdomain['url']}}</div><div>{{subdomain['ip']}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="networkSecurityData.subdomains.length==0" style="padding: 40px;">
+                        NO SUBDOMAINS FOUND <i class="cross"></i>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-title">
+                        <div>Databases</div>
+                    </div>
+                    <div class="box-subtitle">
+                        A list of databases
+                    </div>
+                    <div *ngIf="networkSecurityData.ports.length>0" class="elements-list">
+                        <div *ngFor="let database of networkSecurityData.serviceFactors">
+                            <div class="box-row">
+                                {{database}}
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="networkSecurityData.ports.length==0" style="padding: 40px;">
+                        NO DATABASES FOUND <i class="cross"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="data-figure">
+                <div class="box-title" style="width: 50%;">PORTS</div>
+                <div class="vl"></div>
+                <div class="data-value">{{networkSecurityData.ports.length}}</div>
+
+            </div>
+            <div class="data-figure">
+                <div class="box-title" style="width: 50%;">DATABASES</div>
+                <div class="vl"></div>
+                <div class="data-value">{{networkSecurityData.serviceFactors.length}}</div>
+
+            </div>
+            <div class="data-figure">
+                <div class="box-title" style="width: 50%;">SUBDOMAINS</div>
+                <div class="vl"></div>
+                <div class="data-value">{{networkSecurityData.subdomains.length}}</div>
+
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab==3" class="dashboard-body-content" style="justify-content: flex-start;">
+        <div class="left-side">
+            <div class="score-cards">
+                <div class="box" style="width: 300px;">
+                    <div class="box-title">
+                        <div>DNS Health Risk Score</div>
+                    </div>
+                    <div class="box-subtitle" style="font-size: 100px;">
+                        {{DNSHealthData.riskScore}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="score-cards">
+                <div class="box" style="width: 300px;">
+                    <div class="box-title">
+                        <div>Open DNS Detection</div>
+                    </div>
+                    <div class="box-subtitle">
+                        Is the DNS detected to be open?
+                    </div>
+                    <div style="justify-self: center;">
+                        <i class="checkmark" *ngIf="DNSHealthData.openDNSDetected"></i>
+                        <i class="cross cross-large" *ngIf="!DNSHealthData.openDNSDetected"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="middle">
+            <div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">ns</div>
+                    <div>{{DNSHealthData.ns.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">mx</div>
+                    <div>{{DNSHealthData.mx.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">txt</div>
+                    <div>{{DNSHealthData.txt.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">a</div>
+                    <div>{{DNSHealthData.a.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">quadA</div>
+                    <div>{{DNSHealthData.quadA.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">soa</div>
+                    <div>{{DNSHealthData.soa.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">ptr</div>
+                    <div>{{DNSHealthData.ptr.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">aname</div>
+                    <div>{{DNSHealthData.aname.length}}</div>
+                </div>
+                <div class="box-row free-row">
+                    <div class="free-row-title">cname</div>
+                    <div>{{DNSHealthData.cname.length}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side" style="margin-right: 20px;">
+            <div class="box" style="height: 80%; display: block;">
+                <div class="box-title">
+                    <div>Sender Policy Framework Details</div>
+                </div>
+                <div class="box-subtitle">
+                    A detailed information of SPF found.
+                </div>
+                <div class="elements-list" style="height:80%;">
+                    <div class="box-row">
+                        Does SPF Record Contain Wildcard 
+                        <i class="checkmark" *ngIf="DNSHealthData.doesSpfRecordContainsWildcard"></i>
+                        <i class="cross" *ngIf="!DNSHealthData.doesSpfRecordContainsWildcard"></i>
+                    </div>
+                    <div class="box-row">
+                        Does SPF Record Contain A Softfail
+                        <i class="checkmark" *ngIf="DNSHealthData.doesspfRecordContainsaSoftfail"></i>
+                        <i class="cross" *ngIf="!DNSHealthData.doesspfRecordContainsaSoftfail"></i>
+                    </div>
+                    <div class="box-row">
+                        Is SPF Record Missing
+                        <i class="checkmark" *ngIf="DNSHealthData.spfRecordMissing"></i>
+                        <i class="cross" *ngIf="!DNSHealthData.spfRecordMissing"></i>
+                    </div>
+                    <div class="box-row">
+                        Is SPF Record Malformed
+                        <i class="checkmark" *ngIf="DNSHealthData.spfRecordMalformed"></i>
+                        <i class="cross" *ngIf="!DNSHealthData.spfRecordMalformed"></i>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div *ngIf="activeTab==4" class="dashboard-body-content" style="justify-content: flex-start;">
+        <div class="left-side">
+            <div class="score-cards">
+                <div class="box" style="width: 500px;">
+                    <div class="box-title">
+                        <div>Application Security Risk Score</div>
+                    </div>
+                    <div class="box-subtitle" style="font-size: 100px;">
+                        {{applicationSecurityData.riskNumber}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="score-cards">
+                <div class="box" style="width: 500px;">
+                    <div class="box-title">
+                        <div>Cookies Details</div>
+                    </div>
+                    <div class="box-row">
+                        Http Only
+                        <i class="checkmark" *ngIf="applicationSecurityData.httpOnly"></i>
+                        <i class="cross cross-large" *ngIf="!applicationSecurityData.httpOnly"></i>
+                    </div>
+                    <div class="box-row">
+                        Secure
+                        <i class="checkmark" *ngIf="applicationSecurityData.secure"></i>
+                        <i class="cross cross-large" *ngIf="!applicationSecurityData.secure"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side" style="margin-right: 20px;">
+            <div class="box" style="height: 80%; display: block;">
+                <div class="box-title">
+                    <div>General</div>
+                </div>
+                <div class="box-subtitle">
+                    A detailed information of SPF found.
+                </div>
+                <div class="elements-list" style="height:80%;">
+                    <div class="box-row">
+                        HTTPS Enforced
+                        <i class="checkmark" *ngIf="applicationSecurityData.enforcedHttps"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.enforcedHttps"></i>
+                    </div>
+                    <div class="box-row">
+                        CSP
+                        <i class="checkmark" *ngIf="applicationSecurityData.csp"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.csp"></i>
+                    </div>
+                    <div class="box-row">
+                        HSTS
+                        <i class="checkmark" *ngIf="applicationSecurityData.hsts"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.hsts"></i>
+                    </div>
+                    <div class="box-row">
+                        Unencrypted Password
+                        <i class="checkmark" *ngIf="applicationSecurityData.unencryptedPwd"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.unencryptedPwd"></i>
+                    </div>
+                    <div class="box-row">
+                        Xframe Options
+                        <i class="checkmark" *ngIf="applicationSecurityData.xframeOptions"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.xframeOptions"></i>
+                    </div>
+                    <div class="box-row">
+                        Xcontent Type Options
+                        <i class="checkmark" *ngIf="applicationSecurityData.xcontentTypeOptions"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.xcontentTypeOptions"></i>
+                    </div>
+                    <div class="box-row">
+                        Cors Policy
+                        <i class="checkmark" *ngIf="applicationSecurityData.corspolicy"></i>
+                        <i class="cross" *ngIf="!applicationSecurityData.corspolicy"></i>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div *ngIf="activeTab==5" class="dashboard-body-content" style="justify-content: flex-start;">
+        <div class="left-side">
+            <div class="score-cards">
+                <div class="box" style="width: 500px; height: 200px;">
+                    <div class="box-title">
+                        <div>End Point Security</div>
+                    </div>
+                    <div class="box-subtitle" style="font-size: 30px;">
+                        Your end point security details will be shown here.
+                    </div>
+                </div>
+                
+            </div>
+            <div class="score-cards">
+                <div class="box" style="width: 500px; height: 700px;">
+                    <div class="box-title" style="margin-bottom: 12px;">
+                        <div>Endpoint Services</div>
+                    </div>
+                    <div class="elements-list">
+                        <div *ngFor="let service of endPointSecurityData.endpointServices" >
+                            <div style="margin:12px;background-color: #1d1d1d; text-align: left; padding: 12px;">
+                                <div style="font-size: 22px;">
+                                    Product: {{service['product']}}
+                                </div>
+                                <div style="font-size: 22px;">
+                                    Method: {{service['method']}}
+                                </div>
+                                <div style="font-size: 22px;">
+                                    Name: {{service['name']}}
+                                </div>
+                                <div style="font-size: 22px;">
+                                    PortID: {{service['portID']}}
+                                </div>
+                                <div style="font-size: 22px;">
+                                    OSType: {{service['ostype']}}
+                                </div>
+                            </div>
+                       
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="right-side" style="margin-right: 20px;">
+            <div class="box" style="height: 80%; display: block;">
+                <div class="box-title">
+                    <div>hosts</div>
+                </div>
+                <div class="box-subtitle">
+                    A detailed information of hosts found.
+                    <hr>
+                    Address Type : {{endPointSecurityData.addrType}}
+                    <hr>
+                    Address : {{endPointSecurityData.addr}}
+                </div>
+                <div class="elements-list" style="height:70%;">
+                    <div *ngFor="let host of endPointSecurityData.hosts">
+                        <div class="box-row">
+                            <div>{{host['hostName']}}</div><div>{{host['hostType']}}</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="dashboard-body" *ngIf="!dataIsRecieved()">
+    
+    <div class="data-figure" style="width:min-content; background-color: #c51313;" *ngIf="summary.portsCount>=0">
+        <div class="box-title" style="width: 50%;"> ERROR &21 : NO TARGET GIVEN FOR SCAN.</div>
+    </div>
+</div>
+
+<!--
+    <circle-progress
+                    [percent]="totalRiskNumber"
+                    [radius]="100"
+                    [outerStrokeColor]="generateColour(totalRiskNumber)"
+                    [subtitle]="getConditionByHealth(totalRiskNumber)"
+                    subtitleFontSize="30px"
+                    [outerStrokeWidth]="30"
+                ></circle-progress>
+-->
+<app-footer></app-footer>

@@ -1,0 +1,59 @@
+<!--
+<div class="home-welcome-section">
+    <div class="home-welcome-section-heading">
+        Weclome to ASMBrute Dashboard!
+    </div>
+    <div class="home-welcome-section-body">
+        ASMBrute is a powerful attack surface mapper designed to provide comprehensive and in-depth analysis of an organization's digital assets. This cutting-edge tool is used by cybersecurity professionals to identify and assess potential vulnerabilities in an organization's systems and networks. ASMBrute uses advanced techniques to map an organization's attack surface, including analyzing network configurations, probing open ports, and scanning for vulnerabilities in web applications and databases. The tool is designed to provide actionable insights into an organization's security posture, helping security teams to prioritize and remediate potential risks before they can be exploited by cybercriminals. With its user-friendly interface and robust scanning capabilities, ASMBrute is a valuable asset for organizations seeking to enhance their cybersecurity defenses and protect against evolving cyber threats.
+    </div>
+</div>
+<div class="home-scan-section">
+    <div class="home-scan-section-heading">
+        Scan a website with ease
+    </div>
+    <div class="home-scan-section-body">
+        ASMBrute Dashboard provides you with the ease to scan the vulnerabilities of a website with just one click and view the most important details in a user friendly interface. Simply write the website URL below and hit scan!
+    </div>
+    <div class="target-input" *ngIf="fetchingData==false">
+        <input class="target-input-field" #targetInput type="text" placeholder="example: yourwebsite.com" (keyup)="inputIntoTarget($event)">
+        <div class="button target-input-button" (click)="scanWebsite()"  >SCAN</div>
+    </div>
+    <div class="target-input" *ngIf="fetchingData">
+        
+        <div class="lds-dual-ring"></div>
+    </div>
+</div>
+-->
+
+<div class="content" style="background-image: url(../../assets/images/leadspace.jpg);">
+    
+    
+<div style="background: none;">
+    <div class="content1">
+        
+        <div class="content2">
+           
+            <div class="home-scan-section-heading" style="margin:20px">ImbruteASM</div>
+            <div class="home-scan-section-heading" style="margin:20px; font-size: 60px;">Online Vulnerability Scanner</div>
+            
+                <div style="text-align: center; margin:120px; padding:120px; background-color: #141414;" *ngIf="!fetchingData">
+                    <div class="home-scan-section-heading" style="font-size: 50px;">Enter domain:</div>
+                    <div >
+                        <input type="text" class="target-input-field" id="website" #box name="website">
+                        <div style="display: flex; justify-content: space-around;"><div class="button target-input-button" (click)="getVal(box.value)"  >SCAN</div></div>
+                    </div>
+                </div>
+                <div *ngIf="fetchingData" style="text-align: center; margin:120px; padding:120px; background-color: #141414; justify-content: center;">
+                    <div class="home-scan-section-heading" style="font-size: 50px;">Scanning...</div>
+                    <div class="lds-dual-ring"></div>
+                </div>
+            
+
+        </div>
+        
+        
+                
+     </div>  
+    </div>          
+</div>
+<app-footer></app-footer>

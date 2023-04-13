@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'MyFont';
+    src: url('../../assets/fonts/Overpass-Regular.ttf');
+  }
+  mat-toolbar.sticky{
+    background-color: rgba(184, 181, 181, 0.961);
+    color: rgb(255, 255, 255);
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    box-shadow: #a7a7a7 0px 0px 5px;
+    }
+    mat-toolbar{
+    background-color: #212020;
+    
+    color: rgb(255, 255, 255);
+    height: 110px;
+    font-family: MyFont;
+    }
+
+    
+.row1{
+    color:blue;
+    margin-left: 90px;
+    margin-top:50px;
+    font-family: MyFont;
+    padding-top: 80px;
+
+}
+.my-2{
+    margin-left: -40px;
+    font-family: MyFont;
+
+}
+.row2{
+    color:blue;
+    margin-left: 390px;
+    margin-top:-225px;
+    font-family: MyFont;
+    padding-top: 20px;
+}
+.rr{
+    margin-left: 620px;
+    margin-top: -30px;
+}
+.card{
+    color:#383431 !important;
+    background-color: #2c3344 !important;
+    margin-top: -50px;
+}
+
+.row3{
+    margin-left: 720px;
+    padding-top:-10px;
+    padding-bottom: 20px;
+}

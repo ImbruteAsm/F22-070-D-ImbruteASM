@@ -1,0 +1,52 @@
+.side-bar{
+    width: 100%;
+    height: 100%;
+    background-color: #1A2431;
+    color: #f1f1f1;
+    font-style: italic;
+    font-size: 30px;
+    
+}
+.side-bar-top{
+    padding: 0px;
+    margin-top: 0px;
+}
+.side-bar-bottom{
+    padding: 0px;
+    bottom: 0;
+    width: 100%;
+
+}
+.side-bar-button-main{
+    font-weight: 900;
+    font-size: 40px;
+    font-style: oblique;
+    font-style: normal;
+    color: #f1f1f1;
+    padding: 15px;
+    padding-bottom: 10px;
+    transition-timing-function: ease-in-out;
+    font-family: 'Sofia Sans Extra Condensed', sans-serif;
+    transition-duration: 0.1s;
+}
+
+.side-bar-button-main:hover{
+    background-color: #2b333e;
+    border-radius: 1px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.side-bar-button{
+    font-size: 20px;
+    padding: 15px;
+    color: #f1f1f1;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.1s;
+}
+.side-bar-button:hover{
+    padding: 20px;
+    color:#ff8800;
+    background-color: #2b333e;
+    cursor: pointer;
+}

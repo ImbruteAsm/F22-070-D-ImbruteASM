@@ -1,0 +1,31 @@
+<div class="side-bar">
+    <ul class="side-bar-top">
+        <div class="side-bar-button-main" routerLink="/" (click)="(sideBarActivateComponent(0))">
+            <div style="display: flex;">
+                ImbruteASM
+                <img src="../../assets/images/logo.png" style="width: 50px; height: 50px; margin:6px;" >
+            </div>
+            
+            <div style="font-size: 20px;color: #ff8800;padding: 0px;">Dashboard</div>
+        </div>
+        <div class="side-bar-button" (click)="(sideBarActivateComponent(1))" 
+            [ngStyle]="
+                {'background-color':(getSidebarActiveComponent()==1)?'#FFFFFF':'', 
+                'color':(getSidebarActiveComponent()==1)?'#000000':'',
+                'padding-left':(getSidebarActiveComponent()==1)?'20px':'',
+                'font-size':(getSidebarActiveComponent()==1)?'30px':''
+                }
+
+                "
+
+            >Scan Website</div>
+        <div class="side-bar-button" style="display: none;">Scan History</div>
+        <div class="side-bar-button" style="display: none;" >Scan Comparison</div>
+    </ul>
+    <hr>
+    <ul class="side-bar-bottom">
+        <div class="side-bar-button" style="display: none;">Settings</div>
+        <div class="side-bar-button" style="display: none;">Logout</div>
+    </ul>
+    
+</div>
