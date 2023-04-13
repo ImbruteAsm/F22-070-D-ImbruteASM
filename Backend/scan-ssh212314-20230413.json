@@ -1,0 +1,2 @@
+{"aut": null, "banner": {"comments": null, "protocol": null, "raw": "", "software": null}, "enc": null, "fingerprints": [{"fp": null, "type": "ssh-rsa1"}], "key": ["ssh-rsa1"], "target": "apophenicart.com"}
+[0;31m[exception] did not receive banner: Connection reset by peer[0m
